@@ -1,16 +1,18 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-export class Product {
+@Entity('product')
+export class Product extends BaseEntity {
 
-    
+    @ApiProperty()
     @PrimaryGeneratedColumn()
     id: number;
 
-    
+    @ApiProperty()
     @Column()
     name: string;
-
     
+    @ApiProperty()
     @Column({
         type: "decimal",
         precision: 10,
@@ -18,8 +20,8 @@ export class Product {
         default: 0
     })
     price: number;
-
     
+    @ApiProperty()
     @Column()
     quantity: number;
 

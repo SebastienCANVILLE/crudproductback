@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductService {
-  create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
+    
+    const newproduct = new Product()
+    newproduct.name = createProductDto.name
+    newproduct.price = createProductDto.price
+    newproduct.quantity = createProductDto.quantity
+    await newproduct.save()
+    
+    return newproduct;
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAllProduct() : Promise<Product[]> {
+    return await Product.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOneById(id: number) {
+    return await Product.findOneBy({ id: id })
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async updateProduct(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
+    
+    const updateProduct = await Product.findOneBy({ id }); // const permettant de retrouver une présentation par son id
+
+    updateProduct.name = updateProductDto.name; // presentation.name = actuelle ; updatePresentationDto.name = nouvelle
+    updateProduct.price = updateProductDto.price;
+    updateProduct.quantity = updateProductDto.quantity;
+
+
+    await updateProduct.save() // sauvegarde de la nouvelle presentation
+
+    return updateProduct
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async deleteProduct(id: number) {
+    return await Product.delete(id); //({ id })
   }
 }
