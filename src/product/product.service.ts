@@ -26,19 +26,19 @@ export class ProductService {
 
   async updateProduct(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
     
-    const updateProduct = await Product.findOneBy({ id }); // const permettant de retrouver une présentation par son id
+    const updateProduct = await Product.findOneBy({ id }); 
 
-    updateProduct.name = updateProductDto.name; // presentation.name = actuelle ; updatePresentationDto.name = nouvelle
+    updateProduct.name = updateProductDto.name; 
     updateProduct.price = updateProductDto.price;
     updateProduct.quantity = updateProductDto.quantity;
 
 
-    await updateProduct.save() // sauvegarde de la nouvelle presentation
+    await updateProduct.save() 
 
     return updateProduct
   }
 
   async deleteProduct(id: number) {
-    return await Product.delete(id); //({ id })
+    return await Product.delete(id); 
   }
 }
